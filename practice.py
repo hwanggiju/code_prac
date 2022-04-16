@@ -1,20 +1,9 @@
-# 두 정수 A와 B가 주어졌을 때, A와 B를 비교하는 프로그램을 작성하시오.
+year = int(input()) # 년도 입력
 
-# 첫째 줄에 다음 세 가지 중 하나를 출력한다.
+year_re = ((year % 4 == 0) & (year % 100 != 0 )) |  (year % 400 == 0)
 
-'''
-A가 B보다 큰 경우에는 '>'를 출력한다.
-A가 B보다 작은 경우에는 '<'를 출력한다.
-A와 B가 같은 경우에는 '=='를 출력한다. 
-'''
+if year_re == 1 :
+    print(1)
 
-A, B= map(int, input().split(' '))
-
-if (A == B) :
-    print('==')
-
-elif (A > B) :
-    print('>')
-    
 else :
-    print('<')
+    print(0)
