@@ -1,9 +1,14 @@
-year = int(input()) # 년도 입력
+x = int(input())
+y = int(input())
 
-year_re = ((year % 4 == 0) & (year % 100 != 0 )) |  (year % 400 == 0)
-
-if year_re == 1 :
+if (x > 0) & (y > 0) :
     print(1)
-
+    
+elif (x < 0) & (y > 0) :
+    print(2)
+    
+elif (x > 0) & (y < 0) :
+    print(4)
+    
 else :
-    print(0)
+    print(3)
