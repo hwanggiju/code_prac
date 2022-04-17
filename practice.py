@@ -1,21 +1,27 @@
-A, B = map(int, input().split(' '))
-C = int(input())
+A, B, C = map(int, input().split(' '))
 
-T = (A * 60) + B
-A_B = T + C
+if (A == B) &  (A == C) :
+    reward = 10000 + (A * 1000)
+    print(reward)
+    
+elif (A == B) & (A != C):
+    reward = 1000 + (A * 100)
+    print(reward)
 
-if A_B >= 1440 :
-    A_B = A_B - 1440
-    A = int(A_B / 60)
-    B = int(A_B % 60)
-    print(A, B)
-
-elif A_B > 0 :
-    A = int(A_B / 60)
-    B = int(A_B % 60)
-    print(A, B)
+elif (B == C) & (A != C) :
+    reward = 1000 + (B * 100)
+    print(reward)
+    
+elif (A == C) & (B != C) :
+    reward = 1000 + (A * 100)
+    print(reward)
     
 else :
-    A = int(A_B / 60)
-    B = int(A_B % 60)
-    print(A, B) 
+    if (A > B) & (A > C) :
+        print(A * 100)
+        
+    elif (B > A) & (B > C) :
+        print(B * 100)
+        
+    else :
+        print(C * 100)
