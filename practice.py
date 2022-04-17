@@ -1,20 +1,21 @@
-H, M = map(int, input().split(' '))
+A, B = map(int, input().split(' '))
+C = int(input())
 
-T = (H * 60) + M
-H_M = T - 45
+T = (A * 60) + B
+A_B = T + C
 
-if H_M > 0 :
-    H = int(H_M / 60)
-    M = int(H_M % 60)
-    print(H, M)
+if A_B >= 1440 :
+    A_B = A_B - 1440
+    A = int(A_B / 60)
+    B = int(A_B % 60)
+    print(A, B)
+
+elif A_B > 0 :
+    A = int(A_B / 60)
+    B = int(A_B % 60)
+    print(A, B)
     
-elif H_M < 0 :
-    H_M = 1440 + H_M
-    H = int(H_M / 60)
-    M = int(H_M % 60)
-    print(H, M)
-
 else :
-    H = int(H_M / 60)
-    M = int(H_M % 60)
-    print(H, M)
+    A = int(A_B / 60)
+    B = int(A_B % 60)
+    print(A, B) 
