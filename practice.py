@@ -1,27 +1,13 @@
-A, B, C = map(int, input().split(' '))
+import sys
 
-if (A == B) &  (A == C) :
-    reward = 10000 + (A * 1000)
-    print(reward)
-    
-elif (A == B) & (A != C):
-    reward = 1000 + (A * 100)
-    print(reward)
+input = sys.stdin.readline
+index = int(input())
+value = []
 
-elif (B == C) & (A != C) :
-    reward = 1000 + (B * 100)
-    print(reward)
+for i in range(index) :
+    value.append(int(input()))
     
-elif (A == C) & (B != C) :
-    reward = 1000 + (A * 100)
-    print(reward)
-    
-else :
-    if (A > B) & (A > C) :
-        print(A * 100)
-        
-    elif (B > A) & (B > C) :
-        print(B * 100)
-        
-    else :
-        print(C * 100)
+value.sort()
+
+for j in value :
+    print(j)
