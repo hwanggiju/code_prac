@@ -2,12 +2,11 @@ import sys
 
 input = sys.stdin.readline
 index = int(input())
-value = []
+cnt = [0 for x in range(10001)]
 
-for i in range(index) :
-    value.append(int(input()))
+for _ in range(index) :
+    cnt[int(input())] += 1
     
-value.sort()
-
-for j in value :
-    print(j)
+for i in range(1, 10001) :
+    for j in range(cnt[i]) :
+        print(i)
