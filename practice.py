@@ -2,15 +2,21 @@ import sys
 
 input = sys.stdin.readline
 
-person = int(input())
-lst = [0 for _ in range(person)]
+N = int(input())
+lst = input().split(' ')
+dic = {}
+lst[N-1] = lst[N-1].rstrip('\n')
+cnt = []
 
-for i in range(person) :
-    age, name = map(str, input().split(' '))
-    lst[i] = [int(age), name]
-    lst[i][1] = lst[i][1].rstrip('\n')
+for i in range(N) :
+    lst[i] = int(lst[i])
     
-lst = sorted(lst, key = lambda x : x[0])
+lst_new = sorted(list(set(lst)))
 
-for i in lst :
-    print(i[0], i[1])    
+for i in range(len(lst_new)) :
+    dic[lst_new[i]] = i
+    
+for i in lst:
+    cnt.append(dic[i])
+    
+print(*cnt)
