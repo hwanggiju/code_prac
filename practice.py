@@ -2,29 +2,31 @@ import sys
 
 input = sys.stdin.readline
 
+def f(N):
+    global Map
+    if N == 3 :
+        Map[0][:3] = Map[2][:3] = [1]*3
+        Map[1][:3] = [1, 0,1]
+        return
+    
+    a = N//3
+    f(N//3)
+    for i in range(3) :
+        for j in range(3) :
+            if i == 1 and j == 1:
+                continue
+            for k in range(a) :
+                Map[a*i+k][a*j:a*(j+1)] = Map[k][:a]
+    
 N = int(input())
-pre = 0
-post = 1
-i = 0
-def fun(i, pre, post):
-    if N == 0 :
-        return print(pre)
-        
-    if ((i%2) == 0) : 
-        pre += post
-        i += 1
-    
-    else :
-        post += pre
-        i += 1
-        
-    if (i == N) & (i%2 == 0) :
-        return print(pre)
-    
-    elif (i == N) & (i%2 != 0) :
-        return print(post)
-    
-    else :
-        fun(i, pre, post)
-        
-fun(i, pre, post)
+Map = [[0 for col in range(N)] for raw in range(N)]
+
+f(N)
+
+for i in Map:
+    for j in i :
+        if j :
+            print('*', end='')
+        else :
+            print(' ', end='')
+    print()
