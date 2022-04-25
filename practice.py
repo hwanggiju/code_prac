@@ -3,20 +3,18 @@ import sys
 input = sys.stdin.readline
 
 N = int(input())
-lst = input().split(' ')
-dic = {}
-lst[N-1] = lst[N-1].rstrip('\n')
-cnt = []
+result = 1
+cnt = 0
+def fac(result, cnt) :
+    result *= (cnt+1)
+    cnt += 1
+    if cnt == N :
+        return print(result)
+    
+    elif N == 0 :
+        return print(result)
+    
+    else :
+        fac(result, cnt)
 
-for i in range(N) :
-    lst[i] = int(lst[i])
-    
-lst_new = sorted(list(set(lst)))
-
-for i in range(len(lst_new)) :
-    dic[lst_new[i]] = i
-    
-for i in lst:
-    cnt.append(dic[i])
-    
-print(*cnt)
+fac(result, cnt)
