@@ -2,25 +2,15 @@ import sys
 
 input = sys.stdin.readline
 
-T = int(input())
-Tc = []
+N = int(input())
+dp = []
 
-for i in range(T) :
-    Tc.append(int(input()))
+for i in range(N) :
+    dp.append(list(map(int, input().split())))
 
-dp = [0] * 101
-dp[1] = 1
-dp[2] = 1
-dp[3] = 1
-dp[4] = 2
-def P(n) :
-    if n == 5 :
-        dp[n] = dp[n-1]
-    if dp[n] == 0 :
-        dp[n] = dp[n-5] + dp[n-1]
-    return dp[n]
+for i in range(1, N) :
+    dp[i][0] = min(dp[i-1][1], dp[i-1][2]) + dp[i][0]
+    dp[i][1] = min(dp[i-1][0], dp[i-1][2]) + dp[i][1]
+    dp[i][2] = min(dp[i-1][0], dp[i-1][1]) + dp[i][2]
 
-for i in Tc :
-    for j in range(4, i+1) :
-        P(j)
-    print(dp[i])
+print(min(dp[N-1][0], dp[N-1][1], dp[N-1][2]))
