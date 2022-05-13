@@ -2,18 +2,19 @@ import sys
 
 input = sys.stdin.readline
 
-n = int(input())
-dp = []
+step = int(input())
+score = [0 for i in range(301)]
+dp = [0  for i in range(301)]
 
-for i in range(n) :
-    dp.append(list(map(int, input().split())))
+for i in range(step) :
+    score[i] = int(input())
 
-for i in range(1, n) :
-    dp[i][0] = dp[i][0] + dp[i-1][0]
-    dp[i][len(dp[i])-1] = dp[i-1][len(dp[i-1])-1] + dp[i][len(dp[i])-1]
+dp[0] = score[0]
+dp[1] = score[0] + score[1]
+dp[2] = max(score[2] + score[1], score[2] + score[0]) 
+
+for i in range(3, step) :
+    dp[i] = max(dp[i-3] + score[i-1] + score[i], 
+                score[i] + dp[i-2])
     
-    if len(dp[i]) >= 3:
-        for j in range(1, (len(dp[i]) - 1)) :
-            dp[i][j] = max(dp[i-1][j-1], dp[i-1][j]) + dp[i][j]
-            
-print(max(dp[n-1]))
+print(dp[step-1])
