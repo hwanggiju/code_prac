@@ -15,6 +15,7 @@ while True :
 
 # 돌발성 난청 진단 문제 Solution
 
+'''
 n = int(input()) # 환자 수 입력
 chart = [list(map(int, input().split())) for _ in range(n)] # 측정된 청력 역치 입력
 
@@ -29,30 +30,31 @@ for i in chart:
 
     # queue를 이용하여 연속된 숫자 묶음 길이 계산
     tmp = []
-    cnt = 0
+    # cnt = 0
     v = idx_lst.pop(0)
     tmp.append(v)
 
     while len(idx_lst) > 0 :
         v_cmp = idx_lst.pop(0)
         if v + 1 == v_cmp:
-            cnt += 1
+            # cnt += 1
             tmp.append(v_cmp)
             v = v_cmp
         else :
-            cnt = 0
+            # cnt = 0
             tmp = []
             tmp.append(v_cmp)
             v = v_cmp
         
     # 길이가 3보다 크면 진단
-    # if len(tmp) >= 3 :
-    if cnt >= 3 :
+    if len(tmp) >= 3 :
+    # if cnt >= 3 :
         print(f'돌발성 난청 진단')
         # break
     
     else :
         print('Fine!')
+'''
 
 
 # 행렬 곱 문제 Solution
