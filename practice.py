@@ -1,18 +1,25 @@
-def solution(storey):
+def solution(data, col, row_begin, row_end):
     answer = 0
-    while storey :
-        b = storey % 10
-        n = (storey // 10) % 10
+    tmp = 0
+    data = sorted(data, key = lambda x : (x[col-1], -x[0]))
+    # print(data)
+    data = data[row_begin-1 : row_end]
+    # print(data)
+    
+    for i in data :
+        sum = 0
         
-        if b > 5 :
-            answer += 10 - b
-            storey += 10  
-        elif b == 5 :
-            answer += b
-            if n >= 5 :
-                storey += 10
-        else :
-            answer += b
+        for j in i :
+            sum += j % row_begin
             
-        storey = storey // 10
+        if tmp == 0 :
+            tmp = sum
+        else :
+            tmp = tmp ^ sum
+        
+        row_begin += 1    
+    
+    # print(tmp)
+    answer = tmp
+    
     return answer
