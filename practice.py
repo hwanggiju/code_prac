@@ -1,25 +1,18 @@
-def solution(data, col, row_begin, row_end):
+from heapq import heappushpop, heappush
+def solution(n, k, enemy):
     answer = 0
-    tmp = 0
-    data = sorted(data, key = lambda x : (x[col-1], -x[0]))
-    # print(data)
-    data = data[row_begin-1 : row_end]
-    # print(data)
-    
-    for i in data :
-        sum = 0
-        
-        for j in i :
-            sum += j % row_begin
-            
-        if tmp == 0 :
-            tmp = sum
+    lst = []
+    s = 0
+    for i in enemy :
+        s += i
+        if s <= n :
+            heappush(lst, -i)
+            answer += 1
+        elif k > 0 :
+            k -= 1
+            s += heappushpop(lst, -i)
+            answer += 1
         else :
-            tmp = tmp ^ sum
-        
-        row_begin += 1    
-    
-    # print(tmp)
-    answer = tmp
-    
+            break 
+            
     return answer
