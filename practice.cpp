@@ -1,33 +1,31 @@
 #include <string>
 #include <vector>
-#include <queue>
+#include <stack>
 
 using namespace std;
 
-int solution(int n, int k, vector<int> enemy) {
-    int answer = 0;
-    int sum = 0;
-    priority_queue<int, vector<int>> pq;
+long long solution(int cap, int n, vector<int> deliveries, vector<int> pickups)
+{
+    long answer = 0;
     
-    for (int i = 0; i < enemy.size(); i++) {
+    int idx = n - 1;
+    
+    int d_box = 0;
+    int p_box = 0;
+    
+    while (idx >= 0) {
         
-        sum += enemy[i];
+        d_box += deliveries[idx];
+        p_box += pickups[idx];
         
-        if (sum <= n) {
-            pq.push(enemy[i]);
-            answer += 1;
+        while (d_box > 0 || p_box > 0) {
+            d_box -= cap;
+            p_box -= cap;
+            answer += (idx + 1) * 2;
         }
         
-        else if (k > 0) {
-            k -= 1;
-            pq.push(enemy[i]);
-            int tmp = pq.top();
-            pq.pop();
-            sum -= tmp;
-            answer += 1;
-        }
-            
-        else break;
+        idx--;
+        
     }
     
     return answer;
