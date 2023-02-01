@@ -1,20 +1,63 @@
-def solution(cap, n, deliveries, pickups):
-    answer = 0
+def plus(x, n) :
+    return x + n
+def double_(x) :
+    return x * 2
+def triple(x) :
+    return x * 3
+
+def solution(x, y, n):
+    answer = 1
+    nodeLst = []
     
-    idx = n - 1
+    if x == y :
+        return 0
     
-    d_p = [0, 0]
+    a = plus(x, n)
+    b = double_(x)
+    c = triple(x)
     
-    while idx >= 0 :
-    	
-        d_p[0] += deliveries[idx]
-        d_p[1] += pickups[idx]
+    if a < y :
+        nodeLst.append(a)
+    elif a == y :
+        return answer
+    
+    if b < y :
+        nodeLst.append(b)
+    elif b == y :
+        return answer
+    
+    if c < y :
+        nodeLst.append(c)
+    elif c == y :
+        return answer
+    
+    while True :
+        newnodeLst = []
+        answer += 1
         
-        while d_p[0] > 0 or d_p[1] > 0 :
-            d_p[0] -= cap
-            d_p[1] -= cap
-            answer += (idx + 1) * 2
+        for i in nodeLst :
+            _plus = plus(i, n)
+            _dou = double_(i)
+            _tri = triple(i)
+            
+            if _plus < y :
+                newnodeLst.append(_plus)
+            elif _plus == y :
+                return answer
+            
+            if _dou < y :
+                newnodeLst.append(_dou)
+            elif _dou == y :
+                return answer
+            
+            if _tri < y :
+                newnodeLst.append(_tri)
+            elif _tri == y :
+                return answer
+            
+        if len(newnodeLst) == 0 :
+            return -1
         
-        idx -= 1
-        
+        nodeLst = list(set(newnodeLst))
+    
     return answer
