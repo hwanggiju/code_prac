@@ -1,32 +1,83 @@
 #include <string>
 #include <vector>
-#include <stack>
+#include <algorithm>
 
 using namespace std;
 
-long long solution(int cap, int n, vector<int> deliveries, vector<int> pickups)
-{
-    long answer = 0;
+int solution(int x, int y, int n) {
+    int answer = 1;
+    vector<int> nodeLst;
     
-    int idx = n - 1;
+    if (x == y) {
+        return 0;
+    }
     
-    int d_box = 0;
-    int p_box = 0;
+    int a = x + n;
+    int b = x * 2;
+    int c = x * 3;
     
-    while (idx >= 0) {
+    if (a < y) {
+        nodeLst.push_back(a);
+    }
+    else if (a == y) {
+        return answer;
+    }
+    
+    if (b < y) {
+        nodeLst.push_back(b);
+    }
+    else if (b == y) {
+        return answer;
+    }
+    
+    if (c < y) {
+        nodeLst.push_back(c);
+    }
+    else if (c == y) {
+        return answer;
+    }
+    
+    while (true) {
+        answer += 1;
+        vector<int> newnodeLst;
         
-        d_box += deliveries[idx];
-        p_box += pickups[idx];
-        
-        while (d_box > 0 || p_box > 0) {
-            d_box -= cap;
-            p_box -= cap;
-            answer += (idx + 1) * 2;
+        for(int i = 0; i < nodeLst.size(); i++) {
+            int _plus = nodeLst[i] + n;
+            int _dou = nodeLst[i] * 2;
+            int _tri = nodeLst[i] * 3;
+            
+            if (_plus < y) {
+                newnodeLst.push_back(_plus);
+            }
+            else if (_plus == y) {
+                return answer;
+            }
+            
+            if (_dou < y) {
+                newnodeLst.push_back(_dou);
+            }
+            else if (_dou == y) {
+                return answer;
+            }
+            
+            if (_tri < y) {
+                newnodeLst.push_back(_tri);
+            }
+            else if (_tri == y) {
+                return answer;
+            }
         }
         
-        idx--;
+        if (newnodeLst.size() == 0) {
+            return -1;
+        }
+        
+        sort(newnodeLst.begin(), newnodeLst.end());
+        newnodeLst.erase(unique(newnodeLst.begin(), newnodeLst.end()), newnodeLst.end());
+        nodeLst = newnodeLst;
         
     }
+    
     
     return answer;
 }
