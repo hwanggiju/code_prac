@@ -1,4 +1,3 @@
-from heapq import *
 def solution(numbers):
     answer = [-1] * len(numbers)
     
@@ -7,13 +6,13 @@ def solution(numbers):
     for i in range(len(numbers)) :
         tmp = numbers[i]
         
-        while True :
-            if len(lst) > 0 and lst[0][0] < tmp :
-                val, idx = heappop(lst)
+        while len(lst) > 0 :
+            if numbers[lst[-1]] < tmp :
+                idx = lst.pop()
                 answer[idx] = tmp
             else :
                 break
                 
-        heappush(lst, [tmp, i])
+        lst.append(i)
         
     return answer
