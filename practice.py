@@ -9,11 +9,10 @@ def solution(book_time):
         startTime, endTime = i
         startLst = startTime.split(":")
         endLst = endTime.split(":")
-        for j in range(2) :
-            s_hour = int(startLst[0]) * 60
-            s_minute = int(startLst[1])
-            e_hour = int(endLst[0]) * 60
-            e_minute = int(endLst[1])
+        s_hour = int(startLst[0]) * 60
+        s_minute = int(startLst[1])
+        e_hour = int(endLst[0]) * 60
+        e_minute = int(endLst[1])
         timeLst.append([s_hour + s_minute, e_hour + e_minute + 10])
         
     timeLst = sorted(timeLst, key = lambda x:x[0])
