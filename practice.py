@@ -1,21 +1,15 @@
-# 완주하지 못한 선수
-def solution(participant, completion):
-    answer = ''
+# 전화번호 목록
+from collections import Counter
+
+def solution(phone_book):
+    answer = True
     
-    hash_table = {}
-    
-    for i in participant :
-        if i not in hash_table :
-            hash_table[i] = 1
-            
-        else :
-            hash_table[i] += 1
-    
-    for i in completion :
-        hash_table[i] -= 1
-    
-    for i in participant :
-        if hash_table[i] == 1 :
-            return i
-    
+    hash_t = Counter(phone_book)
+        
+    for i in phone_book :
+        tmp = ''
+        for j in i :
+            tmp += j
+            if tmp in hash_t and tmp != i :
+                return False
     return answer
