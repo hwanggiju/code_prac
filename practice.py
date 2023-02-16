@@ -1,13 +1,21 @@
-# 폰켓몬 문제
-def solution(nums):
-    answer = 0
+# 완주하지 못한 선수
+def solution(participant, completion):
+    answer = ''
     
-    a = len(set(nums))
-    b = len(nums)/2
+    hash_table = {}
     
-    if a >= b :
-        answer = b
-    else :
-        answer = a
+    for i in participant :
+        if i not in hash_table :
+            hash_table[i] = 1
+            
+        else :
+            hash_table[i] += 1
+    
+    for i in completion :
+        hash_table[i] -= 1
+    
+    for i in participant :
+        if hash_table[i] == 1 :
+            return i
     
     return answer
