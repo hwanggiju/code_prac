@@ -1,13 +1,12 @@
-# 위장
-def solution(clothes):
-    answer = 1
-    h = {}
-    for _, x in clothes :
-        if x not in h :
-            h[x] = 2
-        else :
-            h[x] += 1
+# 같은 숫자는 싫어
+def solution(arr):
+    answer = []
+    
+    for i in arr :
+        if len(answer) == 0 :
+            answer.append(i)
             
-    for i in h.values():
-        answer *= i
-    return answer - 1
+        elif len(answer) != 0 and answer[-1] != i :
+            answer.append(i)
+            
+    return answer
