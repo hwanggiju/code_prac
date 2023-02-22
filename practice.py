@@ -1,20 +1,19 @@
-# 더 맵게
-from heapq import *
-def solution(scoville, K):
+# 최소 직사각형
+def solution(sizes):
     answer = 0
+    w = []
     h = []
-    heapify(scoville)
-    while True :
-        try :
-            if scoville[0] >= K:
-                return answer
+    
+    for x, y in sizes :
+        if x > y :
+            w.append(x)
+            h.append(y)
+        else :
+            w.append(y)
+            h.append(x)
+    a = max(w)
+    b = max(h)
+    
+    answer = a*b
             
-            a = heappop(scoville)
-            
-            new = a + (scoville[0] * 2)
-            
-            heappop(scoville)
-            heappush(scoville, new)
-            answer += 1
-        except :
-            return -1
+    return answer
