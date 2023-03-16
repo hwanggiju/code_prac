@@ -1,21 +1,15 @@
-# 백준 숫자 합 구하기
+# 백준 평균 구하기
 
 '''
-n값 받기
-공백 없는 숫자 입력값 받고, 리스트 자료구조로 저장하기
-결과값 변수 sum 선언
-
-for i in 리스트 :
-    sum에 리스트 각 원소 정수로 변환하여 더하기
-
-sum 출력
+n 과목 수 입력받기
+score 리스트에 입력받은 점수 정보 저장하기
+max_ 변수에 점수 최대값 저장하기
+score 리스트 점수 총합 구하기
+평균값 계산식으로 출력하기
 '''
 
-n = input()
-number = list(input())
-sum = 0
-
-for i in number :
-    sum += int(i)
-    
-print(sum)
+n = int(input())
+score = list(map(int, input().split()))
+max_ = max(score)
+sum_ = sum(score)
+print(sum_*100/max_/n)
