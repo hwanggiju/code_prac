@@ -1,19 +1,10 @@
-# 최소 직사각형
-def solution(sizes):
-    answer = 0
-    w = []
-    h = []
-    
-    for x, y in sizes :
-        if x > y :
-            w.append(x)
-            h.append(y)
-        else :
-            w.append(y)
-            h.append(x)
-    a = max(w)
-    b = max(h)
-    
-    answer = a*b
-            
-    return answer
+# 빅-오메가 표기법 시간 복잡도 = 1 번
+# 빅-세타 표기법 시간 복잡도 = N/2 번
+# 빅-오 표기법 시간 복잡도 = N 번
+import random
+findNumber = random.randrange(1, 101)   # 1~100 사이 랜덤값 생성
+
+for i in range(1, 101) :
+    if i == findNumber :
+        print(i)
+        break
