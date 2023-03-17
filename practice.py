@@ -1,45 +1,47 @@
-# 백준 연속된 자연수의 합 구하기
+# 백준 주몽의 명령
 
 '''
-n 입력받기
-사용 변수 선언 (결과값 count, 시작점 startIndex, 끝점 endIndex, 합산 sum_)
+재료의 개수 n과 갑옷이 되는 번호 m 입력 받기
+재료 데이터 리스트에 저장하기 dataLst
+dataLst 오름차순 정렬
+시작점 인덱스 : startIndex = 0
+끝점 인덱스 : endIndex = n-1
+결과값 : count = 0
 
-while endIndex != n :
-    if sum_ == n :
-        결과값 1 증가시키기
-        끝점 1 증가시키기
-        끝점 합산에 누적하기
-    elif sum_ > n :
-        시작점 합산에서 빼주기
-        시작점 1 증가시키기
+while i < j :
+    if 재료합이 < M :
+        시작점 1 증가
+    elif 재료합이 > M :
+        끝점 1 감소
     else :
-        끝점 1 증가시키기
-        끝점 합산에 누적하기
+        결과값 1 증가
+        시작점 1 증가
+        끝점 1 감소
 
-결과 값 출력
+결과값 출력
 '''
+
+import sys
+input = sys.stdin.readline
 
 n = int(input())
-
-count = 1
-startIndex = 1
-endIndex = 1
-sum_ = 1
-
-while endIndex != n :
-    if sum_ == n :
-        count += 1
-        endIndex += 1
-        sum_ += endIndex
+m = int(input())
         
-    elif sum_ > n :
-        sum_ -= startIndex
+dataLst = list(map(int, input().split(' ')))
+dataLst.sort()
+
+startIndex = 0
+endIndex = n-1
+count = 0
+
+while startIndex < endIndex :
+    if dataLst[startIndex] + dataLst[endIndex] < m :
         startIndex += 1
-        
+    elif dataLst[startIndex] + dataLst[endIndex] > m :
+        endIndex -= 1
     else :
-        endIndex += 1
-        sum_ += endIndex
-        
+        count += 1
+        startIndex += 1
+        endIndex -= 1
+
 print(count)
-        
-        
