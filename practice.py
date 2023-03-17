@@ -44,15 +44,16 @@ for i in range(n) :
     endIndex = n-1
     while startIndex < endIndex :
         if dataLst[startIndex] + dataLst[endIndex] == val :
-            if dataLst[startIndex] != val and dataLst[endIndex] != val :
+            if startIndex != i and endIndex != i :
                 count += 1
                 break
-            if dataLst[startIndex] == val :
+            if startIndex == i :
                 startIndex += 1
-            if dataLst[endIndex] == val :
+            if endIndex == i :
                 endIndex -= 1
         elif dataLst[startIndex] + dataLst[endIndex] > val :
             endIndex -= 1
-        else : startIndex += 1
+        else : 
+            startIndex += 1
         
 print(count)
