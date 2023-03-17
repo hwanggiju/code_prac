@@ -5,11 +5,12 @@
 n개의 데이터를 리스트에 저장 dataLst
 dataLst 오름차순으로 정렬
 결과값 변수 count = 0
-시작점 : startIndex = 0
-끝점 : endIndex = n-1
 
 for i in range(n) :
     기준이 되는 값 dataLst[i]
+    시작점 : startIndex = 0
+    끝점 : endIndex = n-1
+      
     while startIndex < endIndex :
         if dataLst[startIndex] + dataLst[endIndex] == 기준값 :
             if 시작점 != 기준값 and 끝점 != 기준값 :
