@@ -1,63 +1,41 @@
-# 백준 스택 수열
+# 백준 오큰수
 
 '''
-수열의 개수 n과 수열 리스트 arr 데이터 입력받기
-오름차순 자연수 num = 0
-stack 리스트 생성
-결과값 result 빈 문자열 생성
-정상적인 수열 확인 state = True
+수열 개수 n, 수열 리스트 dataLst 입력받기
+result 오큰수 결과 리스트 생성
+stack 인덱스 저장 리스트 생성
 
 for i in range(n) :
-    val arr[i] 수열 데이터 저장
-    if val >= num :
-        while val >= num :
-            num을 stack에 추가
-            num 1 증가
-            result + 추가
-        마지막 원소 제거
-        result - 추가
-    else :
-        stack 마지막 원소 pop 후 temp에 저장
-        if temp != val :
-            print("NO")
-            state = False
-            break
-        else :
-            result - 추가
-
-if state :
-    결과값 출력
+    while stack and dataLst[stack[-1]] < dataLst[i] :
+        stack top 인덱스 pop idx 저장
+        result[idx] dataLst[i] 추가
+        
+    stack에 i 인덱스 추가
+    
+while stack :
+    stack 비어있을 때까지 pop, idx에 저장
+    남아있는 인덱스 오큰수가 없는 경우이므로, result[idx] = -1
+    
+for i in range(n) :
+    결과값 띄어쓰기로 출력하기
+    print(str(result[i]) + " ", end='')
 '''
 
 n = int(input())
-arr = [0] * n
+dataLst = list(map(int, input().split()))
 
-for i in range(n) :
-    arr[i] = int(input())
-    
+result = [0] * n
 stack = []
-result = ""
-state = True
-num = 1
 
 for i in range(n) :
-    val = arr[i]
-    if val >= num :
-        while val >= num :
-            stack.append(num)
-            num += 1
-            result += '+\n'
-        stack.pop()
-        result += '-\n'
-        
-    else :
-        temp = stack.pop()
-        if temp != val :
-            print("NO")
-            state = False
-            break
-        else :
-            result += '-\n'
+    while stack and dataLst[stack[-1]] < dataLst[i] :
+        idx = stack.pop()
+        result[idx] = dataLst[i]
+    stack.append(i)
+    
+while stack :
+    idx = stack.pop()
+    result[idx] = -1
 
-if state :
-    print(result)
+for i in range(n) :
+    print(str(result[i]) + ' ', end='')
