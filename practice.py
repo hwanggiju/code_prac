@@ -18,7 +18,6 @@ while stack :
     
 for i in range(n) :
     결과값 띄어쓰기로 출력하기
-    print(str(result[i]) + " ", end='')
 '''
 
 n = int(input())
