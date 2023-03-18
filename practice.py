@@ -1,40 +1,29 @@
-# 백준 오큰수
+# 백준 카드 2
 
 '''
-수열 개수 n, 수열 리스트 dataLst 입력받기
-result 오큰수 결과 리스트 생성
-stack 인덱스 저장 리스트 생성
+카드 개수 n 입력받기
+큐 리스트 생성하기 q
 
-for i in range(n) :
-    while stack and dataLst[stack[-1]] < dataLst[i] :
-        stack top 인덱스 pop idx 저장
-        result[idx] dataLst[i] 추가
-        
-    stack에 i 인덱스 추가
+for i in range(1, n+1) :
+    큐 리스트에 1부터 n까지 저장
+
+while len(q) > 1 :
+    맨 위의 카드 한 장을 버림
+    그 다음 카드 한 장을 맨 뒤로 보냄
     
-while stack :
-    stack 비어있을 때까지 pop, idx에 저장
-    남아있는 인덱스 오큰수가 없는 경우이므로, result[idx] = -1
-    
-for i in range(n) :
-    결과값 띄어쓰기로 출력하기
+큐에서 마지막 하나 남은 원소 출력
 '''
 
+from collections import deque
 n = int(input())
-dataLst = list(map(int, input().split()))
 
-result = [0] * n
-stack = []
+q = deque()
 
-for i in range(n) :
-    while stack and dataLst[stack[-1]] < dataLst[i] :
-        idx = stack.pop()
-        result[idx] = dataLst[i]
-    stack.append(i)
+for i in range(1, n+1) :
+    q.append(i)
     
-while stack :
-    idx = stack.pop()
-    result[idx] = -1
-
-for i in range(n) :
-    print(str(result[i]) + ' ', end='')
+while len(q) > 1 :
+    q.popleft()
+    q.append(q.popleft())
+    
+print(q[0])
