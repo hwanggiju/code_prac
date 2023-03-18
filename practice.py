@@ -31,7 +31,7 @@ for i in range(n) :
         if pq.empty() :
             print('0\n')
         else :
-            temp = pq.get() # 절대값 동일한 경우, (x, -x)로 저장되어 있다.
+            temp = pq.get()
             print(str(temp[1]) + '\n')
     else :
         # abs(val) 기준으로 먼저 정렬
