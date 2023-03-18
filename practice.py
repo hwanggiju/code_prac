@@ -1,21 +1,36 @@
 # 백준 수 정렬하기
 
 '''
-수의 개수 n 입력받기
-숫자를 저장할 리스트 생성 dataLst
-dataLst 입력받고 저장하기
-오름차순 정렬
+배열의 크기 n 입력받기
+
+for i in range(n) :
+    arr 리스트에 데이터와 인덱스 저장
+    
+최댓값 저장 변수 max_ 생성
+arr 정렬
+
+for i in range(n) :
+    if max_ < arr[i][1] - i :
+        최댓값 업데이트
+        
+최댓값 + 1 출력
 '''
 
+import sys
+
+input = sys.stdin.readline
+
 n = int(input())
-
-dataLst = []
-
-for i in range(n) :
-    val = int(input())
-    dataLst.append(val)
-
-dataLst.sort()
+arr = []
 
 for i in range(n) :
-    print(dataLst[i])
+    arr.append((int(input()), i))
+    
+max_ = 0
+arr.sort()
+
+for i in range(n) :
+    if max_ < arr[i][1] - i :
+        max_ = arr[i][1] - i
+        
+print(max_ + 1)
