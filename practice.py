@@ -1,59 +1,105 @@
-# 백준 '좋은 수' 구하기
+# 백준 DNA 비밀번호
 
 '''
-수의 개수 n 입력받기
-n개의 데이터를 리스트에 저장 dataLst
-dataLst 오름차순으로 정렬
-결과값 변수 count = 0
+# 함수
+add_(c) :
+    새로운 값 더하고, check 업데이트
+    
+remove_(c) :
+    맨 앞의 원소 제거하고, check 업데이트
+    
+# 메인 코드
+문자열 크기 s와 부분 문자열 크기 p를 입력받기
+DNA 문자열 데이터 arr 입력받기
+A C G T 최소 개수 checkLst 입력받기
 
-for i in range(n) :
-    기준이 되는 값 dataLst[i]
-    시작점 : startIndex = 0
-    끝점 : endIndex = n-1
-      
-    while startIndex < endIndex :
-        if dataLst[startIndex] + dataLst[endIndex] == 기준값 :
-            if 시작점 != 기준값 and 끝점 != 기준값 :
-                결과값 1 증가
-                 break
-            if 시작점 == 기준값 :
-                시작점 인덱스 1 증가
-            if 끝점 == 기준값 :
-                끝점 인덱스 1 감소
-        elif dataLst[startIndex] + dataLst[endIndex] > 기준값 :
-            끝점 인덱스 1 감소
-        else : 
-            시작점 인덱스 1 증가
+# 사용 변수 선언
+결과값 변수 result = 0
+비교 리스트 cmpLst
+check = 0 
+
+# 문제 해결 방법
+for i in range(4) :
+    checkLst에서 0인 원소 개수 만큼 check 값 증가 => 이유 : 최소 개수가 0이라는 것은 이미 만족되었다는 의미
+    
+for i in range(p) :
+    부분 문자열 길이 원소 cmpLst와 checkLst를 비교하고, 유효한 원소라면 check 값 증가
+    
+if check == 4 :
+    결과값 증가
+    
+for i in range(p, s) :
+    tmpIdx = i - p
+    add_(c) 새로운 원소 값 추가
+    remove_(c) 맨 앞의 원소 값 제거
+    if check == 4 :
+        결과값 증가
 
 결과값 출력
 '''
 
-import sys
-input = sys.stdin.readline
-
-n = int(input())
+def add_(c) :
+    global checkLst, cmpLst, check
+    if c == 'A' :
+        cmpLst[0] += 1
+        if cmpLst[0] == checkLst[0] :
+            check += 1
+    elif c == 'C' :
+        cmpLst[1] += 1
+        if cmpLst[1] == checkLst[1] :
+            check += 1
+    if c == 'G' :
+        cmpLst[2] += 1
+        if cmpLst[2] == checkLst[2] :
+            check += 1
+    if c == 'T' :
+        cmpLst[3] += 1
+        if cmpLst[3] == checkLst[3] :
+            check += 1
+    
+def remove_(c) :
+    global checkLst, cmpLst, check
+    if c == 'A' :
+        if cmpLst[0] == checkLst[0] :
+            check -= 1
+        cmpLst[0] -= 1
+    elif c == 'C' :
+        if cmpLst[1] == checkLst[1] :
+            check -= 1
+        cmpLst[1] -= 1
+    elif c == 'G' :
+        if cmpLst[2] == checkLst[2] :
+            check -= 1
+        cmpLst[2] -= 1
+    elif c == 'T' :
+        if cmpLst[3] == checkLst[3] :
+            check -= 1
+        cmpLst[3] -= 1
         
-dataLst = list(map(int, input().split(' ')))
-dataLst.sort()
 
-count = 0
+s, p = map(int, input().split())
+arr = list(input())
+checkLst = list(map(int, input().split()))
 
-for i in range(n) :
-    val = dataLst[i]
-    startIndex = 0
-    endIndex = n-1
-    while startIndex < endIndex :
-        if dataLst[startIndex] + dataLst[endIndex] == val :
-            if startIndex != i and endIndex != i :
-                count += 1
-                break
-            if startIndex == i :
-                startIndex += 1
-            if endIndex == i :
-                endIndex -= 1
-        elif dataLst[startIndex] + dataLst[endIndex] > val :
-            endIndex -= 1
-        else : 
-            startIndex += 1
+result = 0
+cmpLst = [0] * 4
+check = 0
+
+for i in range(4) :
+    if checkLst[i] == 0 :
+        check += 1
+
+for i in range(p) :
+    add_(arr[i])
+    
+if check == 4 :
+    result += 1
+    
+for i in range(p, s) :
+    tmpIdx = i - p
+    add_(arr[i])
+    remove_(arr[tmpIdx])
+    if check == 4 :
+        result += 1
         
-print(count)
+print(result)
