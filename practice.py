@@ -1,27 +1,53 @@
-# 백준 ATM
+import sys
+input = sys.stdin.readline
+n, k = map(int, input().split())
+a = list(map(int, input().split()))
 
-'''
-사람 수 n 입력받기
-인출 시간 p 입력받고 리스트에 저장하기
-합 배열 sumLst 생성하기
+def quickSort(s, e, k) :
+    global a
+    if s < e :
+        pivot = partition(s, e)
+        if pivot == k :
+            return
+        elif k < pivot :
+            quickSort(s, pivot-1, k)
+        else :
+            quickSort(pivot+1, e, k)
+            
+def swap(i, j) :
+    global a
+    temp = a[i]
+    a[i] = a[j]
+    a[j] = temp
+    
+def partition(s, e) :
+    global a
+    
+    if s+1 == e :
+        if a[s] > a[e] :
+            swap(s, e)
+        return e
+    
+    m = (s+e) // 2
+    swap(s, m)
+    pivot = a[s]
+    i = s + 1
+    j = e
+    
+    while i <= j :
+        while pivot < a[j] and j > 0 :
+            j -= 1
+            
+        while pivot > a[i] and i < len(a) - 1 :
+            i += 1
+        if i <= j :
+            swap(i, j)
+            i += 1
+            j -= 1
+    
+    a[s] = a[j]
+    a[j] = pivot
+    return j
 
-인출 시간 리스트 오름차순으로 정렬하기
-
-정렬된 데이터 합 배열 생성하기 sumLst
-
-합 배열의 모든 값을 더해 결과값 출력
-'''
-
-n = int(input())
-p = list(map(int, input().split()))
-sumLst = [0] * n
-
-p.sort()
-sumLst[0] = p[0]
-
-for i in range(1, n) :
-    sumLst[i] = sumLst[i-1] + p[i]
-
-result = sum(sumLst)
-
-print(result)
+quickSort(0, n-1, k-1)
+print(a[k-1])
