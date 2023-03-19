@@ -1,36 +1,27 @@
-# 백준 수 정렬하기
+# 백준 ATM
 
 '''
-배열의 크기 n 입력받기
+사람 수 n 입력받기
+인출 시간 p 입력받고 리스트에 저장하기
+합 배열 sumLst 생성하기
 
-for i in range(n) :
-    arr 리스트에 데이터와 인덱스 저장
-    
-최댓값 저장 변수 max_ 생성
-arr 정렬
+인출 시간 리스트 오름차순으로 정렬하기
 
-for i in range(n) :
-    if max_ < arr[i][1] - i :
-        최댓값 업데이트
-        
-최댓값 + 1 출력
+정렬된 데이터 합 배열 생성하기 sumLst
+
+합 배열의 모든 값을 더해 결과값 출력
 '''
-
-import sys
-
-input = sys.stdin.readline
 
 n = int(input())
-arr = []
+p = list(map(int, input().split()))
+sumLst = [0] * n
 
-for i in range(n) :
-    arr.append((int(input()), i))
-    
-max_ = 0
-arr.sort()
+p.sort()
+sumLst[0] = p[0]
 
-for i in range(n) :
-    if max_ < arr[i][1] - i :
-        max_ = arr[i][1] - i
-        
-print(max_ + 1)
+for i in range(1, n) :
+    sumLst[i] = sumLst[i-1] + p[i]
+
+result = sum(sumLst)
+
+print(result)
