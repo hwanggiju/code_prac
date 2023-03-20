@@ -1,46 +1,67 @@
-# 백준 신기한 소수
+# 백준 ABCDE
 
 '''
-자릿수 n 입력받기
+사람 수 n, 에지 수 m 입력받기
+그래프 리스트 graph 초기화하기
+방문 기록 리스트 visited 초기화하기
+깊이 도착 확인 변수 finish
 
-def 소수 판별 함수() :
-    for i in range(2, int(val / 2 + 1)) :
-        if val 나누기 i == 0 :
-            return False
-        return True
+def DFS(현재 값, 깊이) :
+    if 깊이 == 5 :
+        finish = True
+        return
+    visited[현재 값] = True
+    for i in graph[현재 값] :
+        방문하지 않은 노드 DFS 수행
+
+for i in range(m) :
+    graph 인접 리스트 데이터 저장
     
-def DFS(현재 수) :
-    if 자릿수 == n :
-        현재 수 출력
-    else :
-        for i in range(1, 10) :
-            if (i 나누기 2 != 0) and ( 현재수 * 10 + i == 소수 ) :
-                DFS(현재수 * 10 + i) .
-2, 4, 5, 7 DFS 수행
+for i in range(n) :
+    DFS(i, 1) 실행
+    if (finish) :
+        반복 종료
+        
+if finish :
+    1 출력하기
+else : 
+    0 출력하기
 '''
 
 import sys
 
-input = sys.stdin.readline
 sys.setrecursionlimit(10000)
+input = sys.stdin.readline
+n, m = map(int, input().split())
 
-n = int(input())
+graph = [[] for _ in range(n+1)]
+visited = [False] * (n+1)
 
-def isPrime(val) :
-    for i in range(2, int(val /2 + 1)) :
-        if val % i == 0 :
-            return False
-    return True
+finish = False
 
-def DFS(num) :
-    if len(str(num)) == n :
-        print(num)
+def DFS(val, depth) :
+    global finish
+    if depth == 5 :
+        finish = True 
+        return
+    visited[val] = True
+    for i in graph[val] :
+        if not visited[i] :
+            DFS(i, depth + 1)
+    visited[val] = False
         
-    for i in range(1, 10) :
-        if ((i % 2 != 0) and (isPrime(num * 10 + i))) :
-            DFS(num * 10 + i)
+for i in range(m) :
+    start, end = map(int, input().split())
+    graph[start].append(end)
+    graph[end].append(start)
+
+for i in range(n) :
+    DFS(i, 1)
+    if finish :
+        break
+    
+if finish :
+    print(1)
+else :
+    print(0)
             
-DFS(2)
-DFS(3)
-DFS(5)
-DFS(7)
