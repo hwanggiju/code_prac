@@ -1,53 +1,46 @@
-# 백준 연결 요소의 개수
+# 백준 신기한 소수
 
 '''
-노드 개수 n과 에지 개수 m 입력받기
-그래프 데이터 인접 리스트 graph 초기화
-방문 기록 리스트 visited 초기화
+자릿수 n 입력받기
 
-def DFS() :
-    visited에 노드 방문 기록
-    if not visited[i] :
-        방문한 노드와 인접한 노드 중 방문하지 않은 노드 DFS 실행 (재귀 함수로 구현)
+def 소수 판별 함수() :
+    for i in range(2, int(val / 2 + 1)) :
+        if val 나누기 i == 0 :
+            return False
+        return True
     
-for i in range(m) :
-    graph 인접 리스트 저장
-    
-for i in range(1, n+1) :
-    if not visited[i] :
-        연결 요소 개수 1 증가
-        DFS 실행
-
-결과값 출력
+def DFS(현재 수) :
+    if 자릿수 == n :
+        현재 수 출력
+    else :
+        for i in range(1, 10) :
+            if (i 나누기 2 != 0) and ( 현재수 * 10 + i == 소수 ) :
+                DFS(현재수 * 10 + i) .
+2, 4, 5, 7 DFS 수행
 '''
 
 import sys
 
-# 파이썬 깊이 제한 1000
-# 깊이 설정 setrecursionlimit
-sys.setrecursionlimit(10000)
 input = sys.stdin.readline
-n, m = map(int, input().split())
+sys.setrecursionlimit(10000)
 
-graph = [[] for _ in range(n+1)]
-visited = [False] * (n+1)
+n = int(input())
 
-result = 0
+def isPrime(val) :
+    for i in range(2, int(val /2 + 1)) :
+        if val % i == 0 :
+            return False
+    return True
 
-def DFS(i) :
-    visited[i] = True
-    for i in graph[i] :
-        if not visited[i] :
-            DFS(i)
-            
-for i in range(m) :
-    start, end = map(int, input().split())
-    graph[start].append(end)
-    graph[end].append(start)
-    
-for i in range(1, n+1) :
-    if not visited[i] :
-        result += 1
-        DFS(i)
+def DFS(num) :
+    if len(str(num)) == n :
+        print(num)
         
-print(result)
+    for i in range(1, 10) :
+        if ((i % 2 != 0) and (isPrime(num * 10 + i))) :
+            DFS(num * 10 + i)
+            
+DFS(2)
+DFS(3)
+DFS(5)
+DFS(7)
