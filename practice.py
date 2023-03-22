@@ -1,70 +1,57 @@
-# 백준 DFS와 BFS
+# 백준 미로 탐색
 
 '''
-노드의 개수 n, 에지 개수 m, 시작점 v 입력 받기
-graph 인접 리스트 저장
-visited 방문 기록 초기화
+상하좌우를 탐색하기 위한 dx, dy 리스트 정의
+미로에서 행 개수 n과 열 개수 m 입력받기
+미로 데이터 map_ 입력받기 - 2차원
+방문 리스트 visited 생성하고 초기화하기 - 2차원
 
-for i in range(m) :
-    graph 인접 리스트에 저장하기
-
-for i in graph :
-    인접 리스트 오름차순 정렬 -> 이유 : 노드가 작은 것부터 방문하기 위해서
-
-def DFS(v) :
-    현재 노드 출력하기
-    visited에 현재 노드 방문 기록하기
-    현재 노드에서 인접 노드에 방문하지 않은 노드가 있다면 DFS 수행하기
-    
-DFS(v) 실행
-
-def BFS(v) :
+def BFS(x, y) :
     큐 자료구조 q 생성하기
-    visited에 현재 노드 방문 기록하기
+    시작점 데이터 q 입력하기
+    x, y visited 방문 기록하기
     while q :
-        q에서 가장 먼저 들어온 데이터 가져오기
-        가져온 데이터 출력하기
-        가져온 데이터와 인접한 노드 큐에 저장하고 visited 방문 기록하기
-
-visited 초기화
-BFS(v) 실행
+        q에서 가장 앞에 있는 데이터 가져오기 now
+        for i in range(4) :
+            상하좌우 좌표값 위치 dx, dy를 통해 X, Y 계산하기
+            if X >= 0 and Y >= 0 and X < n and Y < m :
+                if not visited[X][Y] and map_[X][Y] != 0 :
+                    visited 리스트 방문 기록하기
+                    map_ 리스트에 현재 노드 데이터의 + 1 로 업데이터 -> 깊이 계산
+                    q.appned((X, Y))
+                    
+BFS((0, 0))
+목적지 좌표 출력하기     
 '''
 
 from collections import deque
 
-n, m, start = map(int, input().split())
-graph = [[] for _ in range(n+1)]
-visited = [False] * (n+1)
+dx = [0, 1, 0, -1]
+dy = [1, 0, -1, 0]
 
-for i in range(m) :
-    s, e = map(int, input().split())
-    graph[s].append(e)
-    graph[e].append(s)
+n , m = map(int, input().split())
+map_ = [[0] * m for _ in range(n)]
+for i in range(n) :
+    num = list(input())
+    for j in range(m) :
+        map_[i][j] = int(num[j])
 
-for i in graph :
-    i.sort()
+visited = [[False] * m for _ in range(n)]
 
-def DFS(v) :
-    print(v, end=' ')
-    visited[v] = True
-    for i in graph[v] :
-        if not visited[i] :
-            DFS(i)
-            
-DFS(start)
-
-def BFS(v) :
+def BFS(x, y) :
     q = deque()
-    q.append(v)
-    visited[v] = True
+    q.append((x, y))
+    visited[x][y] = True
     while q :
         now = q.popleft()
-        print(now, end=' ')
-        for i in graph[now] :
-            if not visited[i] :
-                visited[i] = True
-                q.append(i)
+        for i in range(4) :
+            X = now[0] + dx[i]
+            Y = now[1] + dy[i]
+            if X >= 0 and Y >= 0 and X < n and Y < m :
+                if map_[X][Y] != 0 and not visited[X][Y] : 
+                    visited[X][Y] = True
+                    map_[X][Y] = map_[now[0]][now[1]] + 1
+                    q.append((X, Y))
                 
-print()
-visited = [False] * (n+1)
-BFS(start)
+BFS(0, 0)
+print(map_[n-1][m-1])
