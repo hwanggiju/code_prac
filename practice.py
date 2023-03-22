@@ -1,57 +1,80 @@
-# 백준 미로 탐색
+# 백준 트리의 지름
 
 '''
-상하좌우를 탐색하기 위한 dx, dy 리스트 정의
-미로에서 행 개수 n과 열 개수 m 입력받기
-미로 데이터 map_ 입력받기 - 2차원
-방문 리스트 visited 생성하고 초기화하기 - 2차원
+노드 개수 n 입력받기
+graph 인접 리스트 입력받고 저장하기
+for i in range(n) :
+    graph 인접 리스트 정보 입력받기
+    
+visited 방문 기록 리스트 초기화하기
+distance 거리 리스트 초기화하기
 
-def BFS(x, y) :
-    큐 자료구조 q 생성하기
-    시작점 데이터 q 입력하기
-    x, y visited 방문 기록하기
+def BFS(v) :
+    큐 자료구조 생성하기
+    visited 방문 기록하기
     while q :
-        q에서 가장 앞에 있는 데이터 가져오기 now
-        for i in range(4) :
-            상하좌우 좌표값 위치 dx, dy를 통해 X, Y 계산하기
-            if X >= 0 and Y >= 0 and X < n and Y < m :
-                if not visited[X][Y] and map_[X][Y] != 0 :
-                    visited 리스트 방문 기록하기
-                    map_ 리스트에 현재 노드 데이터의 + 1 로 업데이터 -> 깊이 계산
-                    q.appned((X, Y))
-                    
-BFS((0, 0))
-목적지 좌표 출력하기     
+        큐 자료구조에서 가장 앞에 있는 데이터 가져오기 now
+        for i in graph[now] :
+            if not visited[i[0]] :
+                i[0]의 인덱스에서 visited 방문 기록하기
+                큐 자료구조에 i[0] 노드 추가하기
+                큐 자료구조에 삽입된 노드 거리는 현재 거리값 + 에지 거리값
+
+BFS(임의의 노드 시작점) 실행하기
+거리 최대값 인덱스 초기화 max_
+distance 리스트에서 가장 큰 값을 가지는 인덱스 max_ 업데이트하기
+
+distance 리스트 초기화하기
+visited 리스트 초기화하기
+
+BFS(max_)
+distance 오름차순 정렬하기
+distance의 가장 큰 수 출력하기
 '''
 
 from collections import deque
 
-dx = [0, 1, 0, -1]
-dy = [1, 0, -1, 0]
+n = int(input())
+graph = [[] for _ in range(n + 1)]
 
-n , m = map(int, input().split())
-map_ = [[0] * m for _ in range(n)]
 for i in range(n) :
-    num = list(input())
-    for j in range(m) :
-        map_[i][j] = int(num[j])
+    tmp = list(map(int, input().split()))
+    idx = 0
+    node = tmp[idx]
+    idx += 1
+    while True :
+        endNode = tmp[idx]
+        if endNode == -1 :
+            break
+        val = tmp[idx+1]
+        graph[node].append((endNode, val))
+        idx += 2
+        
+visited = [False] * (n+1)
+distance = [0] * (n+1)
 
-visited = [[False] * m for _ in range(n)]
-
-def BFS(x, y) :
+def BFS(v) :
     q = deque()
-    q.append((x, y))
-    visited[x][y] = True
+    q.append(v)
+    visited[v] = True
     while q :
         now = q.popleft()
-        for i in range(4) :
-            X = now[0] + dx[i]
-            Y = now[1] + dy[i]
-            if X >= 0 and Y >= 0 and X < n and Y < m :
-                if map_[X][Y] != 0 and not visited[X][Y] : 
-                    visited[X][Y] = True
-                    map_[X][Y] = map_[now[0]][now[1]] + 1
-                    q.append((X, Y))
+        for i in graph[now] :
+            if not visited[i[0]] :
+                visited[i[0]] = True
+                q.append(i[0])
+                distance[i[0]] = distance[now] + i[1]
                 
-BFS(0, 0)
-print(map_[n-1][m-1])
+BFS(1)
+max_ = 1
+
+for i in range(2, n+1) :
+    if distance[max_] < distance[i] :
+        max_ = i
+        
+visited = [False] * (n+1)
+distance = [0] * (n+1)
+
+BFS(max_)
+distance.sort()
+print(distance[n])
