@@ -1,76 +1,65 @@
-# 백준 집합의 표현 1717
+# 백준 게임 개발 1516
 
 '''
-노드 개수 n과 질의 횟수 m 입력받기
-대표 노드 리스트 preNode 초기화
+건물의 수 n 입력받기
+건물 데이터 저장 인접 리스트 building 초기화하기
+진입 차수 리스트 degree 생성하기
+건물 짓는 데 걸리는 시간 저장 리스트 buildTime
 
-def unoin(a, b) :
-    a, b의 대표 노드 확인
-    if a != b :
-        b의 노드에 대표 노드 a 업데이트
-        
-def find(v) :
-    if preNode[v] == v:
-        대표 노드인 v를 반환
-    else :
-        preNode[v]는 find(preNode[v]) 호출 후 속해있는 집합의 대표 노드 찾기
-        preNode[v] 반환
-        
-for i in range(n+1) :
-    preNode 자기 자신을 대표 노드로 초기화
+for i in range(1, n+1) :
+    n개의 입력받은 데이터 리스트로 받아오기
+    인접 리스트 building 데이터 저장
+    진입 차수 리스트 데이터 저장
     
-for i in range(m) :
-    연산 방식 cal과 대표 노드 start, 자식 노드 end 입력받기
-    if cal == 0 :
-        union 연산 수행
-    else :
-        집합에 속해있는지 아닌지 판단하는 변수 check 선언
-        find(start) find(end) 수행 후, 두 대표 노드 비교
-        if find(start) == find :
-            True 반환
-        if check :
-            YES 출력하기
-        else :
-            NO 출력하기
+큐 자료구조 q 생성하기
+
+for i in range(1, n+1) :
+    진입 차수 리스트 데이터가 0인 노드 큐에 삽입하기
+    
+각 건물이 위상 정렬 순으로 지어지는 걸리는 시간 저장 리스트 result 0으로 초기화
+
+while q :
+    q에서 데이터 하나씩 가져와 now 변수에 저장하기
+    for next_ in building[now] :
+        degree에서 next_ 노드 진입 차수 1 빼기
+        max(result에 저장되있는 next_ 노드의 시간, now 노드에 저장돼있는 result 시간 + now 노드를 짓는 시간) result[next_] 시간 업데이트
+        if degree[next_] == 0 :
+            next_ 노드 q에 삽입하기
 '''
 
-import sys
-input = sys.stdin.readline
-sys.setrecursionlimit(100000)
-n, m = map(int, input().split())
+from collections import deque
 
-preNode = [0] * (n+1)
+n = int(input())
+building = [[] for _ in range(n+1)]
+degree = [0] * (n+1)
+buildTime = [0] * (n+1)
 
-def union(a, b) :
-    a = find(a)
-    b = find(b)
-    if a != b :
-        preNode[b] = a
+for i in range(1, n+1) :
+    lst = list(map(int, input().split()))
+    buildTime[i] = lst[0]
+    idx = 1
+    while True :
+        if lst[idx] == -1 :
+            break
+        building[lst[idx]].append(i)
+        degree[i] += 1
+        idx += 1
 
-def find(v) :
-    if preNode[v] == v :
-        return v
-    else :
-        preNode[v] = find(preNode[v])
-        return preNode[v]
+q = deque()
 
-
-for i in range(n+1) :
-    preNode[i] = i
-    
-for i in range(m) :
-    cal, parent, child = map(int, input().split())
-    if cal == 0 :
-        union(parent, child)
-    else :
-        check = False
-        parentTmp = find(parent)
-        childTmp = find(child)
+for i in range(1, n + 1) :
+    if degree[i] == 0 :
+        q.append(i)
         
-        if parentTmp == childTmp :
-            check = True
+result = [0] * (n+1)
         
-        if check :
-            print("YES")
-        else :
-            print("NO")
+while q :
+    now = q.popleft()
+    for next_ in building[now] :
+        degree[next_] -= 1
+        result[next_] = max(result[next_], result[now] + buildTime[now])
+        if degree[next_] == 0 :
+            q.append(next_)
+
+for i in range(1, n + 1) :
+    print(result[i] + buildTime[i])
