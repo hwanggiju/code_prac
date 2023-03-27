@@ -25,6 +25,9 @@ while q :
         max(result에 저장되있는 next_ 노드의 시간, now 노드에 저장돼있는 result 시간 + now 노드를 짓는 시간) result[next_] 시간 업데이트
         if degree[next_] == 0 :
             next_ 노드 q에 삽입하기
+
+for i in range(1, n+1) :
+    위상 정렬 순 시간 저장 리스트 result와 자기 자신 시간 저장 리스트 buildTime 합으로 출력하기
 '''
 
 from collections import deque
