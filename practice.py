@@ -1,68 +1,81 @@
-# 백준 게임 개발 1516
+# 백준 - 최단 경로 1753
 
 '''
-건물의 수 n 입력받기
-건물 데이터 저장 인접 리스트 building 초기화하기
-진입 차수 리스트 degree 생성하기
-건물 짓는 데 걸리는 시간 저장 리스트 buildTime
+노드 개수 n과 에지 개수 e 입력 받기
+출발 노드 startNode 입력받기
+인접 리스트 graph 초기화하기
+최단 경로 리스트 path 초기화하기 
+방문 리스트 visited 초기화하기
 
-for i in range(1, n+1) :
-    n개의 입력받은 데이터 리스트로 받아오기
-    인접 리스트 building 데이터 저장
-    진입 차수 리스트 데이터 저장
+for i in range(1, m+1) :
+    출발점 u, 도착점 v, 가중치 w 입력받기
+    출발점의 인접 리스트 데이터 업데이트
+    최단 경로 리스트 가중치 업데이트
     
-큐 자료구조 q 생성하기
-
-for i in range(1, n+1) :
-    진입 차수 리스트 데이터가 0인 노드 큐에 삽입하기
-    
-각 건물이 위상 정렬 순으로 지어지는 걸리는 시간 저장 리스트 result 0으로 초기화
-
+우선순위 큐 자료구조 q 생성하기
+(출발 노드 가중치 0, 출발 노드) q 추가하기
 while q :
-    q에서 데이터 하나씩 가져와 now 변수에 저장하기
-    for next_ in building[now] :
-        degree에서 next_ 노드 진입 차수 1 빼기
-        max(result에 저장되있는 next_ 노드의 시간, now 노드에 저장돼있는 result 시간 + now 노드를 짓는 시간) result[next_] 시간 업데이트
-        if degree[next_] == 0 :
-            next_ 노드 q에 삽입하기
-
+    q 데이터 now 가져오기
+    가져온 노드 nowNode에 저장하기
+    
+    if visited[nowNode] :
+        continue
+    
+    visited[nowNode] = True
+    
+    for i in graph[nowNode] :.
+        인접 노드 nextNode에 저장
+        가중치 데이터 val에 저장
+        if path[nextNode] > path[nowNode] + val :
+            path 경로에 최소 경로 데이터로 업데이트
+            (인접 노드의 가중치, 인접 노드) q에 넣어주기
+            
 for i in range(1, n+1) :
-    위상 정렬 순 시간 저장 리스트 result와 자기 자신 시간 저장 리스트 buildTime 합으로 출력하기
+    if visited[i] :
+        최종 path 경로 출력하기
+    else :
+        INF 출력하기
 '''
 
-from collections import deque
+from queue import PriorityQueue
+import sys
 
-n = int(input())
-building = [[] for _ in range(n+1)]
-degree = [0] * (n+1)
-buildTime = [0] * (n+1)
+input = sys.stdin.readline
 
+n, e = map(int, input().split())
+startNode = int(input())
+
+graph = [[] for _ in range(n + 1)]
+path = [sys.maxsize] * (n + 1)
+visited = [False] * (n+1)
+
+path[startNode] = 0
+
+for i in range(e) :
+    u, v, w = map(int, input().split())
+    graph[u].append((v, w))
+    
+q = PriorityQueue()
+q.put((0,startNode))
+
+while q.qsize() > 0 :
+    now = q.get()
+    nowNode = now[1]
+    
+    if visited[nowNode] :
+        continue
+    
+    visited[nowNode] = True
+    
+    for i in graph[nowNode] :
+        nextNode = i[0]
+        val = i[1]
+        if path[nextNode] > path[nowNode] + val :
+            path[nextNode] = path[nowNode] + val
+            q.put((path[nextNode], nextNode))
+            
 for i in range(1, n+1) :
-    lst = list(map(int, input().split()))
-    buildTime[i] = lst[0]
-    idx = 1
-    while True :
-        if lst[idx] == -1 :
-            break
-        building[lst[idx]].append(i)
-        degree[i] += 1
-        idx += 1
-
-q = deque()
-
-for i in range(1, n + 1) :
-    if degree[i] == 0 :
-        q.append(i)
-        
-result = [0] * (n+1)
-        
-while q :
-    now = q.popleft()
-    for next_ in building[now] :
-        degree[next_] -= 1
-        result[next_] = max(result[next_], result[now] + buildTime[now])
-        if degree[next_] == 0 :
-            q.append(next_)
-
-for i in range(1, n + 1) :
-    print(result[i] + buildTime[i])
+    if visited[i] :
+        print(path[i])
+    else :
+        print('INF')
