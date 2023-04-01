@@ -1,33 +1,43 @@
-nowTemp, goalTemp = map(int, input().split())
+n = int(input())
+result = 0
+if n >= 50000 :
+    tmp = n // 50000
+    n = n % 50000
+    result += tmp
 
-cnt = 0
-tmp = 0     # 몫
-val = abs(nowTemp - goalTemp)
-
-if val >= 10 :
-    tmp = val // 10
-val = val % 10
-cnt += tmp
-
-if val >= 8 :
-    val -= 10
-    val = abs(val) 
-    cnt += 1
-
-if val >= 5 :
-    tmp = val // 5
-    val = val % 5
-    cnt += tmp
-
-if val >= 3 :
-    val -= 5
-    val = abs(val)
-    cnt += 1
-
-if val >= 1 :
-    tmp = val // 1
-    cnt += tmp
-
+if n >= 10000 :
+    tmp = n // 10000
+    n = n % 10000
+    result += tmp
     
-print(cnt)
+if n >= 5000 :
+    tmp = n // 5000
+    n = n % 5000
+    result += tmp
     
+if n >= 1000 :
+    tmp = n // 1000
+    n = n % 1000
+    result += tmp
+
+if n >= 500 :
+    tmp = n // 500
+    n = n % 500
+    result += tmp
+    
+if n >= 100 :
+    tmp = n // 100
+    n = n % 100
+    result += tmp
+    
+if n >= 50 :
+    tmp = n // 50
+    n = n % 50
+    result += tmp
+    
+if n >= 10 :
+    tmp = n // 10
+    n = n % 10
+    result += tmp
+    
+print(result)
