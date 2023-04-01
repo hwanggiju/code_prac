@@ -1,43 +1,20 @@
-n = int(input())
-result = 0
-if n >= 50000 :
-    tmp = n // 50000
-    n = n % 50000
-    result += tmp
+n = int(input()) # 토핑의 종류 수
+a, b = map(int, input().split()) # 도우의 가격, 토핑의 가격
+c = int(input()) # 도우의 칼로리
+n_cal = [] # 토핑 칼로리 리스트
+result_cal = [] # 최고의 피자 리스트
+for _ in range(n) :
+    cal = int(input())
+    n_cal.append(cal)
 
-if n >= 10000 :
-    tmp = n // 10000
-    n = n % 10000
-    result += tmp
-    
-if n >= 5000 :
-    tmp = n // 5000
-    n = n % 5000
-    result += tmp
-    
-if n >= 1000 :
-    tmp = n // 1000
-    n = n % 1000
-    result += tmp
+n_cal.sort(reverse=True)
 
-if n >= 500 :
-    tmp = n // 500
-    n = n % 500
-    result += tmp
+money = a
+result = c
+
+for i in range(n) :
+    money += b
+    result += n_cal[i]
+    result_cal.append((result // money))
     
-if n >= 100 :
-    tmp = n // 100
-    n = n % 100
-    result += tmp
-    
-if n >= 50 :
-    tmp = n // 50
-    n = n % 50
-    result += tmp
-    
-if n >= 10 :
-    tmp = n // 10
-    n = n % 10
-    result += tmp
-    
-print(result)
+print(max(result_cal))
