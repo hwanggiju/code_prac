@@ -1,52 +1,60 @@
-from collections import deque
+from collections import deque 
 
+def reverse(s, e) :
+    tmpLst = q[s:e]
+    idx = -1
+    for i in range(s, e) :
+        q[i] = tmpLst[idx]
+        idx -= 1
+    return q
+
+##################### 입력받기 #####################
 n = int(input())
 lock = list(map(int, input().split()))
-firstLock = list(range(1,n+1))
+###################################################
 
-rangeInx = []
+q = deque()
 
-def k_shift(k) :
-    for i in range(k) :
-        shiftVal = tmpLock.pop()
-        tmpLock.insert(0, shiftVal)
-    return tmpLock
-        
-def reverseRange(s, e) :
-    tmp = tmpLock[s:e]
+for i in range(n) :
+    q.append(lock[i])
     
-    for i in range(s, e) :
-        val = tmp.pop()
-        tmpLock[i] = val
-    return tmpLock
+secondShift = 0
 
-# 뒤집기 구간 구하는 곳
-for i in range(n-1) :
-    diff = lock[i] - lock[i+1]
-    if diff > 1 :
-        rangeInx.append(i+1)
+for i in range(2, n) :
+    if lock[i-1] - lock[i-2] != 1 :
+        val = q.pop()
+        q.appendleft(val)
+        secondShift += 1
+    else : break
 
-for i in range(1, n+1) :     # 첫번째 오른쪽 밀기
-    j = 0
-    s, e = rangeInx
-    while j < 10 :
-        if e+j >= n :
-            break
-        
-        tmpLock = lock.copy()
-        # print('backup', lock)
-        j += 1
-        tmpLock = k_shift(j)
-        # print('first', tmpLock)
-        reverseRange(s+j, e+j)
-        k_shift(i)
-        # print('second', tmpLock)
-        
-        if tmpLock == firstLock :
-            break
-    if tmpLock == firstLock :
-            break
+if secondShift == 0 : 
+    secondShift = n
 
-print(i+1)
-print(s+j, e+j-1)
-print(j-1)
+q.appendleft(q[-1])
+q.append(q[1])
+
+tmp = 0
+endIdx = -1
+
+for i in range(1, n+1) :
+    if q[i] - q[i-1] != 1 and q[i+1] - q[i] != 1 :
+        tmp += 1
+        endIdx = i
+    
+startIdx = endIdx - tmp + 1
+
+q = list(q)
+q = reverse(startIdx, endIdx+1)
+
+firstShift = 0
+for i in range(1, n+1) :
+    if q[i] == 1 :
+        firstShift = n + 1 - i
+        break
+
+print(firstShift)
+print(startIdx, endIdx)
+print(secondShift)
+    
+    
+    
