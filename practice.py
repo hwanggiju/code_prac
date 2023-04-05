@@ -1,41 +1,51 @@
-# 프로그래머스 - 과제 진행하기
-def solution(plans):
-    result = []
-    stop = []
-    for i in range(len(plans)) :
-        subject, startTime, play = plans[i]
-        tmpLst = startTime.split(':')
-        plans[i][1] = int(tmpLst[0]) * 60 + int(tmpLst[1])
-        plans[i][2] = int(play)
-        
-    plans.sort(key = lambda x : x[1])
-    
-    for i in range(len(plans)) :
-        subject, startTime, play = plans[i]
-        endTime = startTime + play
-        if i == len(plans) - 1 :
-            result.append(subject)
-        
-        elif i+1 < len(plans) and endTime <= plans[i+1][1] :
-            result.append(subject)
-            remain = plans[i+1][1] - endTime
-            
-            while remain > 0 and len(stop) > 0:
-                tmpSub, tmpTime = stop.pop()
-                
-                if tmpTime <= remain :
-                    result.append(tmpSub)
-                    remain -= tmpTime
+# 프로그래머스 - 공원 산책
 
-                else :
-                    stop.append([tmpSub, tmpTime - remain])
+def solution(park, routes):
+    answer = []
+    cord = [0, 0]
+    for i in range(len(park)) :
+        for j in range(len(park[0])) :
+            if park[i][j] == 'S' :
+                cord = [i, j]
+                break
+            
+    for i in routes :
+        order, move = i.split(' ')
+        move = int(move)
+        x, y = cord
+        print('base', cord)
+        for j in range(1, move+1) :
+            if order == 'E' :
+                # 오른쪽 이동
+                if y+move >= len(park[0]) or park[x][y+j] == 'X' :
+                    cord = [x,y]
                     break
-        
-        else :
-            stop.append([subject, endTime - plans[i+1][1]])
+                else :
+                    cord = [x, y+j]
+            elif order == 'W' :
+                # 왼쪽 이동
+                if y-move < 0 or park[x][y-j] == 'X' :
+                    cord = [x,y]
+                    break
+                else :
+                    cord = [x, y-j]
+                    
+            elif order == 'S' :
+                # 아래 이동
+                if x+move >= len(park) or park[x+j][y] == 'X' :
+                    cord = [x,y]
+                    break
+                else :
+                    cord = [x+j, y]
+                    
+            elif order == 'N' :
+                # 위로 이동
+                if x-move < 0 or park[x-j][y] == 'X' :
+                    cord = [x,y]
+                    break
+                else :
+                    cord = [x-j, y]
+            print(cord)
     
-    while len(stop) > 0 :
-        s, _ = stop.pop()
-        result.append(s)
     
-    return result
+    return cord
