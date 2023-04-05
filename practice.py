@@ -1,32 +1,41 @@
-# 프로그래머스 게임 맵 최단 거리
-from collections import deque
+# 프로그래머스 - 과제 진행하기
+def solution(plans):
+    result = []
+    stop = []
+    for i in range(len(plans)) :
+        subject, startTime, play = plans[i]
+        tmpLst = startTime.split(':')
+        plans[i][1] = int(tmpLst[0]) * 60 + int(tmpLst[1])
+        plans[i][2] = int(play)
+        
+    plans.sort(key = lambda x : x[1])
+    
+    for i in range(len(plans)) :
+        subject, startTime, play = plans[i]
+        endTime = startTime + play
+        if i == len(plans) - 1 :
+            result.append(subject)
+        
+        elif i+1 < len(plans) and endTime <= plans[i+1][1] :
+            result.append(subject)
+            remain = plans[i+1][1] - endTime
+            
+            while remain > 0 and len(stop) > 0:
+                tmpSub, tmpTime = stop.pop()
+                
+                if tmpTime <= remain :
+                    result.append(tmpSub)
+                    remain -= tmpTime
 
-def solution(maps):
-    answer = 0
-    n = len(maps)
-    m = len(maps[0])
+                else :
+                    stop.append([tmpSub, tmpTime - remain])
+                    break
+        
+        else :
+            stop.append([subject, endTime - plans[i+1][1]])
     
-    dx = [0, 1, 0, -1]
-    dy = [1, 0, -1, 0]
+    while len(stop) > 0 :
+        s, _ = stop.pop()
+        result.append(s)
     
-    visited = [[False] * m for _ in range(n)]
-    
-    def bfs(x, y) :
-        q = deque()
-        q.append((x, y))
-        visited[x][y] = True
-        while q :
-            now = q.popleft()
-            for i in range(4) :
-                X = now[0] + dx[i]
-                Y = now[1] + dy[i]
-                if X >= 0 and Y >= 0 and X < n and Y < m :
-                    if maps[X][Y] != 0 and not visited[X][Y] :
-                        visited[X][Y] = True
-                        maps[X][Y] = maps[now[0]][now[1]] + 1
-                        q.append((X, Y))
-    bfs(0, 0)
-    answer = maps[n-1][m-1]
-    if maps[n-1][m-1] == 1 :
-        answer = -1
-    return answer
+    return result
