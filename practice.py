@@ -1,51 +1,33 @@
-# 프로그래머스 - 공원 산책
-
-def solution(park, routes):
+# 프로그래머스 - 연속된 부분 수열의 합
+def solution(sequence, k):
     answer = []
-    cord = [0, 0]
-    for i in range(len(park)) :
-        for j in range(len(park[0])) :
-            if park[i][j] == 'S' :
-                cord = [i, j]
-                break
+    result = []
+    
+    startIdx = 0
+    endIdx = 0
+    
+    n = len(sequence)-1
+    s = sequence[0]
+    
+    if k in sequence :
+        idx = sequence.index(k)
+        return [idx, idx]
+    
+    while endIdx != n :
+        if s == k :
+            result.append([startIdx, endIdx, endIdx-startIdx])
+            endIdx += 1
+            s += sequence[endIdx]
             
-    for i in routes :
-        order, move = i.split(' ')
-        move = int(move)
-        x, y = cord
-        print('base', cord)
-        for j in range(1, move+1) :
-            if order == 'E' :
-                # 오른쪽 이동
-                if y+move >= len(park[0]) or park[x][y+j] == 'X' :
-                    cord = [x,y]
-                    break
-                else :
-                    cord = [x, y+j]
-            elif order == 'W' :
-                # 왼쪽 이동
-                if y-move < 0 or park[x][y-j] == 'X' :
-                    cord = [x,y]
-                    break
-                else :
-                    cord = [x, y-j]
-                    
-            elif order == 'S' :
-                # 아래 이동
-                if x+move >= len(park) or park[x+j][y] == 'X' :
-                    cord = [x,y]
-                    break
-                else :
-                    cord = [x+j, y]
-                    
-            elif order == 'N' :
-                # 위로 이동
-                if x-move < 0 or park[x-j][y] == 'X' :
-                    cord = [x,y]
-                    break
-                else :
-                    cord = [x-j, y]
-            print(cord)
+        elif s > k :
+            s -= sequence[startIdx]
+            startIdx += 1
+            
+        else :
+            endIdx += 1
+            s += sequence[endIdx]
     
+    result.sort(key = lambda x : (x[2], x[0]))
+    answer = result[0][:2]
     
-    return cord
+    return answer
