@@ -1,4 +1,3 @@
-# 프로그래머스 - 연속된 부분 수열의 합
 def solution(sequence, k):
     answer = []
     result = []
@@ -26,7 +25,20 @@ def solution(sequence, k):
         else :
             endIdx += 1
             s += sequence[endIdx]
-    
+            
+        # print(startIdx, endIdx)
+            
+        if endIdx == n and s > k:
+            while s >= k :
+                if s == k :
+                    result.append([startIdx, endIdx, endIdx-startIdx])
+                    break
+                else :
+                    s -= sequence[startIdx]
+                    startIdx += 1
+                # print('part',startIdx, endIdx)
+            break
+    # print(result)
     result.sort(key = lambda x : (x[2], x[0]))
     answer = result[0][:2]
     
