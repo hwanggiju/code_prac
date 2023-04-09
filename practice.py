@@ -1,46 +1,24 @@
-# 프로그래머스 - 연속된 부분 수열의 합
+# 프로그래머스 - 달리기 경주
 
-def solution(sequence, k):
+def change(players, idx) :
+    tmp = players[idx]
+    players[idx] = players[idx-1]
+    players[idx-1] = tmp
+    return players
+
+def solution(players, callings):
     answer = []
-    result = []
-    
-    startIdx = 0
-    endIdx = 0
-    
-    n = len(sequence) - 1
-    s = sequence[0]
-    
-    if k in sequence :
-        idx = sequence.index(k)
-        return [idx, idx]
-    
-    while endIdx < n :
-        if s == k :
-            result.append([startIdx, endIdx, endIdx-startIdx])
-            endIdx += 1
-            s += sequence[endIdx]
-            
-        elif s > k :
-            s -= sequence[startIdx]
-            startIdx += 1
-            
-        else :
-            endIdx += 1
-            s += sequence[endIdx]
-            
-    while startIdx < n :
-        if s == k :
-            result.append([startIdx, endIdx, endIdx-startIdx])
-            break
-            
-        elif s > k :
-            s -= sequence[startIdx]
-            startIdx += 1
-            
-        else :
-            break
-            
-    result.sort(key = lambda x : (x[2], x[0]))
-    answer = result[0][:2]
-    
+    dic = {}
+    for i in range(len(players)) :
+        dic[players[i]] = i
+        
+    for j in callings :
+        idx = dic[j]
+        tmp = players[idx-1]
+        dic[j] -= 1
+        dic[tmp] += 1
+        players = change(players, idx)
+    result = sorted(dic.items(), key = lambda x : x[1])
+    for name, _ in result :
+        answer.append(name)
     return answer
