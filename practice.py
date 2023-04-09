@@ -1,24 +1,16 @@
-# 프로그래머스 - 달리기 경주
+# 프로그래머스 - 추억의 점수
 
-def change(players, idx) :
-    tmp = players[idx]
-    players[idx] = players[idx-1]
-    players[idx-1] = tmp
-    return players
-
-def solution(players, callings):
+def solution(name, yearning, photo):
     answer = []
     dic = {}
-    for i in range(len(players)) :
-        dic[players[i]] = i
-        
-    for j in callings :
-        idx = dic[j]
-        tmp = players[idx-1]
-        dic[j] -= 1
-        dic[tmp] += 1
-        players = change(players, idx)
-    result = sorted(dic.items(), key = lambda x : x[1])
-    for name, _ in result :
-        answer.append(name)
+    for i in range(len(name)) :
+        dic[name[i]] = yearning[i]
+    for na in photo :
+        s = 0
+        for j in range(len(na)) :
+            if na[j] not in dic :
+                pass
+            else :
+                s += dic[na[j]]
+        answer.append(s)
     return answer
